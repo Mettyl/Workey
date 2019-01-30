@@ -1,16 +1,16 @@
 package com.mety.workey.ui.homeFragment;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.mety.workey.R;
 import com.mety.workey.data.entity.Task;
+import com.mety.workey.databinding.HomeFragmentRowBinding;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.ViewHolder> {
@@ -26,17 +26,16 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
-        return new ViewHolder(layoutInflater.inflate(R.layout.home_fragment_row, parent, false));
+        return new ViewHolder((HomeFragmentRowBinding) DataBindingUtil
+                .inflate(LayoutInflater.from(parent.getContext()), R.layout.home_fragment_row, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final Task task = taskList.get(position);
-
-        holder.textView.setText(task.getName());
+        holder.binding.setTask(task);
     }
 
     @Override
@@ -46,11 +45,11 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
+        private final HomeFragmentRowBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.textView = itemView.findViewById(R.id.textView);
+        public ViewHolder(final HomeFragmentRowBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }
