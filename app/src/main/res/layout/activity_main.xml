@@ -34,7 +34,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/navigation"
-            app:onNavigationItemSelected="@{handler::onNavItemClick}" />
+            app:onNavigationItemSelected="@{handler::onNavigationItemSelected}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

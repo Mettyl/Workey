@@ -3,10 +3,9 @@
 <layout>
 
     <data>
-
         <variable
-            name="fragment"
-            type="com.mety.workey.ui.homeFragment.HomeFragment" />
+            name="viewmodel"
+            type="com.mety.workey.ui.homeFragment.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,7 +28,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/button"
+            tools:listitem="@layout/home_fragment_row" />
 
         <Button
             android:id="@+id/button"
@@ -40,8 +40,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:onClickListener="@{() -> viewmodel.insert(viewmodel.currentlyCreatedTask)}"
             android:text="Add"
-            android:onClick="@{fragment::onAddClick}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText" />
@@ -57,7 +57,7 @@
             android:layout_marginRight="8dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
+            android:text="@={viewmodel.currentlyCreatedTask.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

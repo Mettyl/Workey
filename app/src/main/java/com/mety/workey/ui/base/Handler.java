@@ -16,7 +16,7 @@ public class Handler {
         this.context = context;
     }
 
-    public boolean onNavItemClick(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
 
