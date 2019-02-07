@@ -1,26 +1,28 @@
 package com.mety.workey.ui.homeFragment;
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.RadioButton;
 
+import com.mety.workey.BR;
 import com.mety.workey.R;
 import com.mety.workey.data.entity.Task;
 import com.mety.workey.databinding.HomeFragmentRowBinding;
+import com.mety.workey.ui.base.Logger;
+import com.mety.workey.ui.base.MyBaseRecyclerAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 
-public class HomeRecyclerAdapter extends ListAdapter<Task, HomeRecyclerAdapter.ViewHolder> {
+public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter<Task> {
 
+    private TaskDoneListener taskDoneListener;
 
-    HomeRecyclerAdapter() {
+    HomeRecyclerAdapter(TaskDoneListener taskDoneListener) {
         super(DIFF_CALLBACK);
+        this.taskDoneListener = taskDoneListener;
     }
 
-    private static final DiffUtil.ItemCallback DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
+    private static final DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
         @Override
         public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
             return oldItem.getId() == newItem.getId();
@@ -34,30 +36,37 @@ public class HomeRecyclerAdapter extends ListAdapter<Task, HomeRecyclerAdapter.V
         }
     };
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-
-        return new ViewHolder((HomeFragmentRowBinding) DataBindingUtil
-                .inflate(LayoutInflater.from(parent.getContext()), R.layout.home_fragment_row, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyBaseRecyclerAdapter.MyViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
 
         final Task task = getItem(position);
-        holder.binding.setTask(task);
+        RadioButton radioButton = ((HomeFragmentRowBinding) holder.getBinding()).radioButton;
+        radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                task.setFinished(!task.getFinished());
+                taskDoneListener.onCheckedChanged(task);
+                Logger.i(task.getFinished());
+            }
+        });
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.home_fragment_row;
+    }
+
+    @Override
+    public int getBRValue() {
+        return BR.task;
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public interface TaskDoneListener {
 
-        private final HomeFragmentRowBinding binding;
-
-        public ViewHolder(final HomeFragmentRowBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
+        void onCheckedChanged(Task task);
     }
+
+
 }

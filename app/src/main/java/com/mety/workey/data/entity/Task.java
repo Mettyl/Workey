@@ -3,6 +3,7 @@ package com.mety.workey.data.entity;
 
 import com.mety.workey.BR;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.room.ColumnInfo;
@@ -77,6 +78,7 @@ public class Task extends BaseObservable {
 
     public void setPriority(int priority) {
         this.priority = priority;
+        notifyPropertyChanged(BR.priority);
     }
 
     @Bindable
@@ -86,5 +88,12 @@ public class Task extends BaseObservable {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+        notifyPropertyChanged(BR.finished);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Task {" + Integer.toString(id) + "; " + name + "; " + Integer.toString(priority) + "; " + finished + "} ";
     }
 }

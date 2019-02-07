@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.mety.workey.data.database.Repository;
 import com.mety.workey.data.entity.Task;
+import com.mety.workey.ui.base.Logger;
 
 import java.util.List;
 
@@ -49,5 +50,21 @@ public class HomeViewModel extends AndroidViewModel {
         return currentlyCreatedTask;
     }
 
+    public void logTasks() {
+        StringBuilder builder = new StringBuilder();
+        if (getAllTasks().getValue() != null) {
+            for (Task task : getAllTasks().getValue()) {
+                builder.append(task.toString());
+            }
+            Logger.i(builder.toString());
+        } else {
+            Logger.i("LiveData are empty");
+        }
+    }
 
+    @Override
+    protected void onCleared() {
+        Logger.i("HomeViewModel: cleared");
+        super.onCleared();
+    }
 }

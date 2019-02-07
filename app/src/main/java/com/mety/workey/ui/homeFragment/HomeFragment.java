@@ -21,11 +21,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeRecyclerAdapter.TaskDoneListener {
 
-    private HomeViewModel mViewModel;
+
     private HomeFragmentBinding dataBinding;
-
     private HomeViewModel viewModel;
 
 
@@ -42,7 +41,7 @@ public class HomeFragment extends Fragment {
         dataBinding.setLifecycleOwner(getViewLifecycleOwner());
 
         //Setting up recyclerView adapter with methods to differ tasks from each other
-        final HomeRecyclerAdapter adapter = new HomeRecyclerAdapter();
+        final HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(this);
 
         //initialization of recyclerView
         initRecycler(adapter);
@@ -52,6 +51,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(List<Task> tasks) {
                 adapter.submitList(tasks);
+                viewModel.logTasks();
             }
         });
 
@@ -67,5 +67,8 @@ public class HomeFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onCheckedChanged(Task task) {
+        viewModel.update(task);
+    }
 }
