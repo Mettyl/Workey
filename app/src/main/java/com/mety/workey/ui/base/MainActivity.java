@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import com.mety.workey.R;
 import com.mety.workey.databinding.ActivityMainBinding;
-import com.mety.workey.ui.homeFragment.HomeFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,14 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Setting up data binding
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setHandler(new Handler(getApplicationContext()));
 
-
-        //Starting app with home fragment
-        if (savedInstanceState == null) {
-            HomeFragment homeFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment, homeFragment.getTag()).commit();
-        }
+        //Setting up navigation component
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(binding.toolbar, navController);
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
     }
+
 
 }

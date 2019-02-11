@@ -1,4 +1,4 @@
-package com.mety.workey.ui.homeFragment;
+package com.mety.workey.ui.viewModels;
 
 import android.app.Application;
 
@@ -12,19 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-public class HomeViewModel extends AndroidViewModel {
+public class TaskViewModel extends AndroidViewModel {
 
     private Repository repository;
     private LiveData<List<Task>> tasks;
 
     private Task currentlyCreatedTask;
 
-    public HomeViewModel(@NonNull Application application) {
+    public TaskViewModel(@NonNull Application application) {
         super(application);
         repository = new Repository(application);
         tasks = repository.getAllTasks();
-        currentlyCreatedTask = new Task("", "", 0, false);
+        currentlyCreatedTask = new Task();
     }
+
+    // Main database access
 
     public void insert(Task task) {
         repository.insert(task);
@@ -46,6 +48,8 @@ public class HomeViewModel extends AndroidViewModel {
         return tasks;
     }
 
+    //
+
     public Task getCurrentlyCreatedTask() {
         return currentlyCreatedTask;
     }
@@ -64,7 +68,7 @@ public class HomeViewModel extends AndroidViewModel {
 
     @Override
     protected void onCleared() {
-        Logger.i("HomeViewModel: cleared");
+        Logger.i("TaskViewModel: cleared");
         super.onCleared();
     }
 }

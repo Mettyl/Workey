@@ -7,7 +7,6 @@ import com.mety.workey.BR;
 import com.mety.workey.R;
 import com.mety.workey.data.entity.Task;
 import com.mety.workey.databinding.HomeFragmentRowBinding;
-import com.mety.workey.ui.base.Logger;
 import com.mety.workey.ui.base.MyBaseRecyclerAdapter;
 
 import androidx.annotation.NonNull;
@@ -15,11 +14,11 @@ import androidx.recyclerview.widget.DiffUtil;
 
 public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter<Task> {
 
-    private TaskDoneListener taskDoneListener;
+    private RecyclerItemListener recyclerItemListener;
 
-    HomeRecyclerAdapter(TaskDoneListener taskDoneListener) {
+    HomeRecyclerAdapter(RecyclerItemListener recyclerItemListener) {
         super(DIFF_CALLBACK);
-        this.taskDoneListener = taskDoneListener;
+        this.recyclerItemListener = recyclerItemListener;
     }
 
     private static final DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
@@ -46,8 +45,7 @@ public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter<Task> {
             @Override
             public void onClick(View view) {
                 task.setFinished(!task.getFinished());
-                taskDoneListener.onCheckedChanged(task);
-                Logger.i(task.getFinished());
+                recyclerItemListener.onCheckedChanged(task);
             }
         });
     }
@@ -63,7 +61,7 @@ public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter<Task> {
     }
 
 
-    public interface TaskDoneListener {
+    public interface RecyclerItemListener {
 
         void onCheckedChanged(Task task);
     }

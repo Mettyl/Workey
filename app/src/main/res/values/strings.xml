@@ -2,6 +2,6 @@
     <string name="app_name">Workey</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_timetable">Timetable</string>
+    <string name="title_agenda">Agenda</string>
 </resources>

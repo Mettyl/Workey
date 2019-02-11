@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.mety.workey.R;
 import com.mety.workey.data.entity.Task;
 import com.mety.workey.databinding.HomeFragmentBinding;
+import com.mety.workey.ui.viewModels.TaskViewModel;
 
 import java.util.List;
 
@@ -17,15 +18,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HomeFragment extends Fragment implements HomeRecyclerAdapter.TaskDoneListener {
+public class HomeFragment extends Fragment {
 
 
     private HomeFragmentBinding dataBinding;
-    private HomeViewModel viewModel;
+    private TaskViewModel viewModel;
 
 
     @Override
@@ -33,15 +35,23 @@ public class HomeFragment extends Fragment implements HomeRecyclerAdapter.TaskDo
                              @Nullable Bundle savedInstanceState) {
 
         //Setting up view model
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
 
         //Setting up data binding
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
         dataBinding.setViewmodel(viewModel);
         dataBinding.setLifecycleOwner(getViewLifecycleOwner());
 
+        //Floating button
+        dataBinding.floatingActionButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_newTaskFragment));
+
         //Setting up recyclerView adapter with methods to differ tasks from each other
-        final HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(this);
+        final HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(new HomeRecyclerAdapter.RecyclerItemListener() {
+            @Override
+            public void onCheckedChanged(Task task) {
+                viewModel.update(task);
+            }
+        });
 
         //initialization of recyclerView
         initRecycler(adapter);
@@ -55,6 +65,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerAdapter.TaskDo
             }
         });
 
+
         return dataBinding.getRoot();
     }
 
@@ -67,8 +78,4 @@ public class HomeFragment extends Fragment implements HomeRecyclerAdapter.TaskDo
     }
 
 
-    @Override
-    public void onCheckedChanged(Task task) {
-        viewModel.update(task);
-    }
 }
