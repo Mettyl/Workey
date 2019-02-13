@@ -58,32 +58,32 @@ public class Task extends BaseObservable {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-        notifyPropertyChanged(BR.name);
+    @Bindable
+    public int getPriority() {
+        return priority;
+    }
+
+    @Bindable
+    public boolean getFinished() {
+        return finished;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
-    @Bindable
-    public int getPriority() {
-        return priority;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setPriority(int priority) {
         this.priority = priority;
         notifyPropertyChanged(BR.priority);
-    }
-
-    @Bindable
-    public boolean getFinished() {
-        return finished;
     }
 
     public void setFinished(boolean finished) {

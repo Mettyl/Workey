@@ -18,7 +18,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +34,7 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         //Setting up view model
-        viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(TaskViewModel.class);
 
         //Setting up data binding
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
@@ -43,7 +42,7 @@ public class HomeFragment extends Fragment {
         dataBinding.setLifecycleOwner(getViewLifecycleOwner());
 
         //Floating button
-        dataBinding.floatingActionButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_newTaskFragment));
+        //  dataBinding.floatingActionButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_newTaskFragment));
 
         //Setting up recyclerView adapter with methods to differ tasks from each other
         final HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(new HomeRecyclerAdapter.RecyclerItemListener() {
@@ -66,9 +65,16 @@ public class HomeFragment extends Fragment {
         });
 
 
+        viewModel.insert(new Task("Chci", "", 5, false));
+        viewModel.insert(new Task("ukoncit", "", 4, false));
+        viewModel.insert(new Task("svuj", "", 3, false));
+        viewModel.insert(new Task("zivot", "", 2, false));
+        viewModel.insert(new Task("co", "", 1, false));
+        viewModel.insert(new Task("nejdrive", "", 0, false));
+
+
         return dataBinding.getRoot();
     }
-
 
     private void initRecycler(RecyclerView.Adapter adapter) {
         RecyclerView recyclerView = dataBinding.homeFragmentRecyclerView;

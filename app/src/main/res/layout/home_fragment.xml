@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -23,16 +22,6 @@
             tools:listitem="@layout/home_fragment_row">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            app:srcCompat="@drawable/ic_add_black_24dp"
-            app:layout_anchor="@id/home_fragment_recycler_view"
-            app:layout_anchorGravity="bottom|right|end" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

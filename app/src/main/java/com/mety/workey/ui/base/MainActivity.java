@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Setting up navigation component
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(binding.toolbar, navController);
-        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
     }
 
 

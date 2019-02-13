@@ -11,15 +11,15 @@
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_newTaskFragment"
-            app:destination="@id/newTaskFragment" />
+            app:destination="@id/newTaskFragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/anim_slide_in_left"
+            app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/newTaskFragment"
         android:name="com.mety.workey.ui.newTaskFragment.NewTaskFragment"
-        android:label="Timetable"
-        tools:layout="@layout/new_task_fragment">
-        <action
-            android:id="@+id/action_newTaskFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        android:label="Add new task"
+        tools:layout="@layout/new_task_fragment" />
 </navigation>

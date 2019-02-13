@@ -27,7 +27,7 @@ public class NewTaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //Setting up view model
-        viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(TaskViewModel.class);
 
         //Setting up data binding
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.new_task_fragment, container, false);
@@ -40,6 +40,6 @@ public class NewTaskFragment extends Fragment {
 
     public void onAddTaskButtonClick(View view, Task task) {
         viewModel.insert(task);
-        Navigation.findNavController(view).navigate(R.id.action_newTaskFragment_to_homeFragment);
+        Navigation.findNavController(view).navigateUp();
     }
 }
