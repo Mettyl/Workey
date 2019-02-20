@@ -1,4 +1,4 @@
-package com.mety.workey.ui.base;
+package com.mety.workey.ui.viewModels;
 
 import android.app.Application;
 

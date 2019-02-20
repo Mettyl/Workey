@@ -10,6 +10,8 @@
             name="task"
             type="com.mety.workey.data.entity.Task" />
 
+        <import type="com.mety.workey.data.converters.Converters" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -38,38 +40,33 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Name" />
 
-            <RadioGroup
-                android:layout_width="wrap_content"
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
+                android:checked="@{task.finished}"
+                android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:weightSum="1">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <RadioButton
-                    android:id="@+id/radioButton"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="@{task.finished}"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-            </RadioGroup>
 
             <RatingBar
                 android:id="@+id/ratingBar"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginLeft="7dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:clickable="false"
                 android:isIndicator="true"
@@ -77,8 +74,21 @@
                 android:rating="@{task.priority}"
                 android:stepSize="1"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@{Converters.dateToString(task.deadline)}"
+                app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
+                app:layout_constraintStart_toEndOf="@+id/ratingBar"
+                app:layout_constraintTop_toTopOf="@+id/ratingBar"
+                tools:text="12.5.2019 15:12" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

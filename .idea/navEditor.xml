@@ -8,7 +8,7 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="homeFragment">
+                  <entry key="nav_graph_home_fragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -29,7 +29,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="newTaskFragment">
+                  <entry key="nav_graph_new_task">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">

@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/nav_graph_home_fragment">
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/nav_graph_home_fragment"
         android:name="com.mety.workey.ui.homeFragment.HomeFragment"
         android:label="Agenda"
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_newTaskFragment"
-            app:destination="@id/newTaskFragment"
+            app:destination="@id/nav_graph_new_task"
             app:enterAnim="@anim/anim_slide_in_right"
             app:exitAnim="@anim/anim_slide_out_left"
             app:popEnterAnim="@anim/anim_slide_in_left"
             app:popExitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/newTaskFragment"
+        android:id="@+id/nav_graph_new_task"
         android:name="com.mety.workey.ui.newTaskFragment.NewTaskFragment"
         android:label="Add new task"
         tools:layout="@layout/new_task_fragment" />

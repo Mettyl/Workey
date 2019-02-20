@@ -2,15 +2,18 @@ package com.mety.workey.data.database;
 
 import android.content.Context;
 
+import com.mety.workey.data.converters.Converters;
 import com.mety.workey.data.dao.TaskDao;
 import com.mety.workey.data.entity.Task;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 
 @Database(entities = {Task.class}, version = 1)
+@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;

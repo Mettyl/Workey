@@ -38,11 +38,8 @@ public class HomeFragment extends Fragment {
 
         //Setting up data binding
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
-        dataBinding.setViewmodel(viewModel);
         dataBinding.setLifecycleOwner(getViewLifecycleOwner());
-
-        //Floating button
-        //  dataBinding.floatingActionButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_newTaskFragment));
+        dataBinding.setSize(viewModel.getTaskListSize());
 
         //Setting up recyclerView adapter with methods to differ tasks from each other
         final HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(new HomeRecyclerAdapter.RecyclerItemListener() {
@@ -59,19 +56,11 @@ public class HomeFragment extends Fragment {
         viewModel.getAllTasks().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
+                dataBinding.setSize(tasks.size());
                 adapter.submitList(tasks);
-                viewModel.logTasks();
+                //  viewModel.logTasks();
             }
         });
-
-
-        viewModel.insert(new Task("Chci", "", 5, false));
-        viewModel.insert(new Task("ukoncit", "", 4, false));
-        viewModel.insert(new Task("svuj", "", 3, false));
-        viewModel.insert(new Task("zivot", "", 2, false));
-        viewModel.insert(new Task("co", "", 1, false));
-        viewModel.insert(new Task("nejdrive", "", 0, false));
-
 
         return dataBinding.getRoot();
     }
@@ -80,6 +69,7 @@ public class HomeFragment extends Fragment {
         RecyclerView recyclerView = dataBinding.homeFragmentRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         recyclerView.setAdapter(adapter);
     }
 

@@ -3,10 +3,11 @@ package com.mety.workey.data.entity;
 
 import com.mety.workey.BR;
 
+import java.util.Date;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -17,24 +18,20 @@ public class Task extends BaseObservable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "name")
     private String name;
-
-    @ColumnInfo(name = "description")
     private String description;
-
-    @ColumnInfo(name = "priority")
     private int priority;
-
-    @ColumnInfo(name = "finished")
     private boolean finished;
+    private Date duration;
+    private Date deadline;
 
-
-    public Task(String name, String description, int priority, boolean finished) {
+    public Task(String name, String description, int priority, boolean finished, Date duration, Date deadline) {
         this.name = name;
         this.description = description;
         this.priority = priority;
         this.finished = finished;
+        this.duration = duration;
+        this.deadline = deadline;
     }
 
     @Ignore
@@ -68,6 +65,7 @@ public class Task extends BaseObservable {
         return finished;
     }
 
+    @Bindable
     public String getDescription() {
         return description;
     }
@@ -79,6 +77,7 @@ public class Task extends BaseObservable {
 
     public void setDescription(String description) {
         this.description = description;
+        notifyPropertyChanged(BR.description);
     }
 
     public void setPriority(int priority) {
@@ -89,6 +88,26 @@ public class Task extends BaseObservable {
     public void setFinished(boolean finished) {
         this.finished = finished;
         notifyPropertyChanged(BR.finished);
+    }
+
+    @Bindable
+    public Date getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Date duration) {
+        this.duration = duration;
+        notifyPropertyChanged(BR.duration);
+    }
+
+    @Bindable
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+        notifyPropertyChanged(BR.deadline);
     }
 
     @NonNull

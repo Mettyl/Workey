@@ -9,13 +9,13 @@ import com.mety.workey.ui.base.Logger;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-public class TaskViewModel extends AndroidViewModel {
+public class TaskViewModel extends ObservableViewModel {
 
     private Repository repository;
     private LiveData<List<Task>> tasks;
+
 
     private Task currentlyCreatedTask;
 
@@ -48,10 +48,17 @@ public class TaskViewModel extends AndroidViewModel {
         return tasks;
     }
 
-    //
+    public int getTaskListSize() {
+        return tasks.getValue() == null ? 0 : tasks.getValue().size();
+    }
 
+    //
     public Task getCurrentlyCreatedTask() {
         return currentlyCreatedTask;
+    }
+
+    public void setCurrentlyCreatedTask(Task currentlyCreatedTask) {
+        this.currentlyCreatedTask = currentlyCreatedTask;
     }
 
     public void logTasks() {

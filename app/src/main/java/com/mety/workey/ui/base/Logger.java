@@ -10,7 +10,13 @@ public class Logger {
         i(Boolean.toString(message));
     }
 
+    public static void i(int message) {
+        i(Integer.toString(message));
+    }
+
     public static void i(String message) {
         Log.i(TAG, message);
     }
+
+
 }
