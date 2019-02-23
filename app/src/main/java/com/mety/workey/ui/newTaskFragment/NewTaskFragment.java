@@ -9,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.mety.workey.R;
 import com.mety.workey.data.entity.Task;
 import com.mety.workey.databinding.NewTaskFragmentBinding;
-import com.mety.workey.ui.base.Logger;
 import com.mety.workey.ui.viewModels.TaskViewModel;
 
 import java.util.Calendar;
@@ -39,29 +39,41 @@ public class NewTaskFragment extends Fragment {
             //Setting up view model
             viewModel = ViewModelProviders.of(getActivity()).get(TaskViewModel.class);
 
-            if (savedInstanceState == null) {
-                resetAllViews();
-            }
-
             //Setting up data binding
             dataBinding = DataBindingUtil.inflate(inflater, R.layout.new_task_fragment, container, false);
             dataBinding.setTask(viewModel.getCurrentlyCreatedTask());
             dataBinding.setFragment(this);
             dataBinding.setLifecycleOwner(getViewLifecycleOwner());
-        }
 
+            //Ensures that previously created task is cleared
+            if (savedInstanceState == null) {
+                resetAllViews();
+            }
+        }
 
         return dataBinding.getRoot();
     }
 
 
     public boolean finishCreatingTask() {
-        if (viewModel.getCurrentlyCreatedTask().getName().isEmpty()) {
-            dataBinding.newTaskNameTil.setError("Enter task name!");
-            return false;
-        } else {
+
+        boolean correctlyFilled = true;
+        Task task = viewModel.getCurrentlyCreatedTask();
+
+        if (task.getName().isEmpty()) {
+            dataBinding.newTaskNameTil.setError(getString(R.string.enter_task_name));
+            correctlyFilled = false;
+        }
+        Date currentDate = new Date();
+        if (task.getDeadline() != null && currentDate.getTime() >= task.getDeadline().getTime()) {
+            correctlyFilled = false;
+            Toast.makeText(getContext(), R.string.incorrect_date, Toast.LENGTH_SHORT).show();
+        }
+        if (correctlyFilled) {
             viewModel.insert(viewModel.getCurrentlyCreatedTask());
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -80,10 +92,6 @@ public class NewTaskFragment extends Fragment {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-
-                dataBinding.newTaskSelectDurationTv.setTextColor(getResources().getColor(R.color.secondaryColor));
-                dataBinding.newTaskDurationIv.setColorFilter(getResources().getColor(R.color.secondaryColor));
-
                 durationCal.set(0, 0, 0, hourOfDay, minute);
                 viewModel.getCurrentlyCreatedTask().setDuration(durationCal.getTime());
 
@@ -91,7 +99,7 @@ public class NewTaskFragment extends Fragment {
         }, durationCal.get(Calendar.HOUR_OF_DAY), durationCal.get(Calendar.MINUTE), true).show();
     }
 
-    public void showDeadlineTimePicker(View view) {
+    private void showDeadlineTimePicker(View view) {
         final Calendar calendar = Calendar.getInstance();
         Date duration = viewModel.getCurrentlyCreatedTask().getDeadline();
         if (duration != null) {
@@ -101,10 +109,6 @@ public class NewTaskFragment extends Fragment {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-                dataBinding.newTaskSelectDeadlineTv.setTextColor(getResources().getColor(R.color.secondaryColor));
-                dataBinding.newTaskDeadlineIv.setColorFilter(getResources().getColor(R.color.secondaryColor));
-
-                calendar.setTime(viewModel.getCurrentlyCreatedTask().getDeadline());
                 calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), hourOfDay, minute);
                 viewModel.getCurrentlyCreatedTask().setDeadline(calendar.getTime());
             }
@@ -114,7 +118,7 @@ public class NewTaskFragment extends Fragment {
 
     public void showDatePicker(final View view) {
 
-        Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
         Date duration = viewModel.getCurrentlyCreatedTask().getDeadline();
         if (duration != null) {
             calendar.setTime(duration);
@@ -124,7 +128,6 @@ public class NewTaskFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
 
-                Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, dayOfMonth);
                 viewModel.getCurrentlyCreatedTask().setDeadline(calendar.getTime());
                 showDeadlineTimePicker(view);
@@ -132,33 +135,9 @@ public class NewTaskFragment extends Fragment {
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Logger.i("onDestroyView");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Logger.i("onDestroy");
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Logger.i("onDetach");
-
-    }
-
     public void resetAllViews() {
-        Task task = viewModel.getCurrentlyCreatedTask();
-        task.setName("");
-        task.setDescription("");
-        task.setDeadline(null);
-        task.setDuration(null);
-        task.setPriority(0);
-        task.setFinished(false);
+        viewModel.setCurrentlyCreatedTask(new Task());
+        dataBinding.setTask(viewModel.getCurrentlyCreatedTask());
     }
 
 }

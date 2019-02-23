@@ -16,10 +16,18 @@
             app:exitAnim="@anim/anim_slide_out_left"
             app:popEnterAnim="@anim/anim_slide_in_left"
             app:popExitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_nav_graph_home_fragment_to_timeZoneFragment"
+            app:destination="@id/nav_graph_time_zone_fragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_graph_new_task"
         android:name="com.mety.workey.ui.newTaskFragment.NewTaskFragment"
         android:label="Add new task"
         tools:layout="@layout/new_task_fragment" />
+    <fragment
+        android:id="@+id/nav_graph_time_zone_fragment"
+        android:name="com.mety.workey.ui.timeZoneFragment.TimeZoneFragment"
+        android:label="Time zones"
+        tools:layout="@layout/time_zone_fragment" />
 </navigation>

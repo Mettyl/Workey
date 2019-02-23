@@ -24,6 +24,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_nav_graph_home_fragment_to_timeZoneFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -36,6 +41,18 @@
                           <Point>
                             <option name="x" value="206" />
                             <option name="y" value="35" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="nav_graph_time_zone_fragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

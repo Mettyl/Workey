@@ -17,7 +17,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+        android:layout_marginTop="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,26 +29,28 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="@{task.name}"
+                android:textAllCaps="false"
                 android:textColor="@color/design_default_color_on_secondary"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Name" />
+                tools:text="Task name" />
 
 
             <RadioButton
                 android:id="@+id/radioButton"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_width="32dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:checked="@{task.finished}"
                 android:clickable="true"
                 android:focusable="true"
@@ -57,38 +59,110 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:layout_marginLeft="7dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:clickable="false"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:rating="@{task.priority}"
-                android:stepSize="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView4"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
-
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{Converters.dateToString(task.deadline, Converters.DAY_MONTH_HOUR_MINUTE)}"
+                android:textColor="@color/primaryColor"
+                app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/textView10"
+                tools:text="12.5. 15:12" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:text="Start:"
+                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintEnd_toStartOf="@+id/textView8"
+                app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:text="End:"
+                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                app:layout_constraintEnd_toStartOf="@+id/textView9"
+                app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="1dp"
+                android:text="15:00"
+                android:textColor="@color/secondaryColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/textView9"
+                app:layout_constraintEnd_toStartOf="@+id/radioButton"
+                app:layout_constraintTop_toTopOf="@+id/radioButton" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="15:30"
+                android:textColor="@color/secondaryColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/radioButton"
+                app:layout_constraintEnd_toEndOf="@+id/textView8"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="1dp"
+                android:scaleType="fitCenter"
+                android:tint="@color/primaryColor"
+                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView4"
+                app:srcCompat="@drawable/ic_last_page_white_24dp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="@{Converters.dateToString(task.deadline)}"
-                app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
-                app:layout_constraintStart_toEndOf="@+id/ratingBar"
-                app:layout_constraintTop_toTopOf="@+id/ratingBar"
-                tools:text="12.5.2019 15:12" />
+                android:text="@{Converters.timeToString(task.duration)}"
+                app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/textView7"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="1 h 30 min" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="1dp"
+                android:scaleType="centerInside"
+                android:tint="@color/primaryColor"
+                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                app:layout_constraintEnd_toStartOf="@+id/textView10"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="@+id/textView4"
+                app:srcCompat="@drawable/ic_brightness_1_black_24dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

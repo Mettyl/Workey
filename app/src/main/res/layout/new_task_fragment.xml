@@ -2,6 +2,7 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout">
 
     <data>
@@ -23,7 +24,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:paddingBottom="100dp">
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -42,9 +45,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="20"
-                    android:text="@={task.name}"
-                    android:singleLine="true" />
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    android:text="@={task.name}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,8 +60,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                app:errorEnabled="true"
                 android:hint="@string/description"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/new_task_name_til">
@@ -66,31 +69,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={task.description}"
-                    android:ems="50"
-                    android:maxLines="5" />
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:maxLines="5"
+                    android:text="@={task.description}" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <RatingBar
-                android:id="@+id/ratingBar2"
-                style="@android:style/Widget.DeviceDefault.Light.RatingBar.Indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:isIndicator="false"
-                android:numStars="5"
-                android:rating="@={task.priority}"
-                android:stepSize="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -98,15 +83,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/priority"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/ratingBar2"
-                app:layout_constraintEnd_toStartOf="@+id/ratingBar2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/ratingBar2" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -130,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:gravity="end"
@@ -139,7 +121,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <TextView
                 android:id="@+id/new_task_select_duration_tv"
@@ -151,11 +133,13 @@
                 android:layout_marginRight="8dp"
                 android:onClick="@{fragment::showDurationTimePicker}"
                 android:text="@{Converters.timeToString(task.duration) ?? @string/select}"
+                android:textColor="@{Converters.timeToString(task.duration) == null ? @color/textColor : @color/secondaryColor}"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/new_task_duration_iv"
                 app:layout_constraintEnd_toStartOf="@+id/new_task_select_deadline_tv"
                 app:layout_constraintStart_toEndOf="@+id/new_task_duration_iv"
-                app:layout_constraintTop_toTopOf="@+id/new_task_duration_iv" />
+                app:layout_constraintTop_toTopOf="@+id/new_task_duration_iv"
+                tools:text="5 h 06 min" />
 
             <TextView
                 android:id="@+id/new_task_select_deadline_tv"
@@ -167,12 +151,13 @@
                 android:layout_marginRight="8dp"
                 android:gravity="end"
                 android:onClick="@{fragment::showDatePicker}"
-                android:text="@{Converters.dateToString(task.deadline) ?? @string/select}"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/new_task_deadline_iv"
                 app:layout_constraintEnd_toStartOf="@+id/new_task_deadline_iv"
                 app:layout_constraintStart_toEndOf="@+id/new_task_select_duration_tv"
-                app:layout_constraintTop_toTopOf="@+id/new_task_deadline_iv" />
+                app:layout_constraintTop_toTopOf="@+id/new_task_deadline_iv"
+                app:setDeadlineTextAndColor="@{task.deadline}"
+                tools:text="12.1.2019 23:52" />
 
             <ImageView
                 android:id="@+id/new_task_duration_iv"
@@ -182,6 +167,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:onClick="@{fragment::showDurationTimePicker}"
+                android:tint="@{Converters.timeToString(task.duration) == null ? @color/textColor : @color/secondaryColor}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5"
                 app:srcCompat="@drawable/ic_access_time_black_24dp" />
@@ -196,6 +182,7 @@
                 android:onClick="@{fragment::showDatePicker}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:setDeadlineColor="@{task.deadline}"
                 app:srcCompat="@drawable/ic_today_black_24dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

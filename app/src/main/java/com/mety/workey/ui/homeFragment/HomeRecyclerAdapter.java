@@ -1,5 +1,6 @@
 package com.mety.workey.ui.homeFragment;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -15,10 +16,15 @@ import androidx.recyclerview.widget.DiffUtil;
 public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter<Task> {
 
     private RecyclerItemListener recyclerItemListener;
+    private Context context;
+    private Task recentlyDeletedItem;
 
-    HomeRecyclerAdapter(RecyclerItemListener recyclerItemListener) {
+
+    HomeRecyclerAdapter(Context context, RecyclerItemListener recyclerItemListener) {
         super(DIFF_CALLBACK);
+        this.context = context;
         this.recyclerItemListener = recyclerItemListener;
+        recentlyDeletedItem = new Task();
     }
 
     private static final DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
@@ -31,7 +37,11 @@ public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter<Task> {
         public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
             return oldItem.getName().equals(newItem.getName())
                     && oldItem.getDescription().equals(newItem.getDescription())
-                    && oldItem.getPriority() == newItem.getPriority();
+                    && oldItem.getPriority() == newItem.getPriority()
+                    && oldItem.getFinished() == newItem.getFinished();
+            //       && oldItem.getDuration().equals(newItem.getDuration())
+            //      && oldItem.getDeadline().equals(newItem.getDeadline())
+            //      && oldItem.getStart().equals(newItem.getStart());
         }
     };
 
@@ -50,6 +60,12 @@ public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter<Task> {
         });
     }
 
+    void deleteItem(int position) {
+        recentlyDeletedItem = getItem(position);
+        recyclerItemListener.onDeleteItem(recentlyDeletedItem);
+    }
+
+
     @Override
     public int getLayoutId() {
         return R.layout.home_fragment_row;
@@ -64,7 +80,15 @@ public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter<Task> {
     public interface RecyclerItemListener {
 
         void onCheckedChanged(Task task);
+
+        void onDeleteItem(Task task);
     }
 
+    Task getRecentlyDeletedItem() {
+        return recentlyDeletedItem;
+    }
 
+    Context getContext() {
+        return context;
+    }
 }

@@ -34,7 +34,18 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/usr/local/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_add_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/usr/local/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_brightness_1_black_24dp.xml" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -44,9 +55,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_floating_add" />
-                                      <entry key="theme" value="HOLO_DARK" />
-                                      <entry key="themeColor" value="ffffff" />
+                                      <entry key="outputName" value="ratingbar_off" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="7a7a7a" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -145,7 +156,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/usr/local/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_today_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/usr/local/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_brightness_1_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -155,7 +166,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_today_black_24dp" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_brightness_1_black_24dp" />
+                            <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>

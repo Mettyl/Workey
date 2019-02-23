@@ -1,5 +1,9 @@
 package com.mety.workey.data.converters;
 
+import android.content.Context;
+
+import com.mety.workey.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,6 +11,11 @@ import java.util.Date;
 import androidx.room.TypeConverter;
 
 public class Converters {
+
+    public static String DAY_MONTH_HOUR_MINUTE = "dd. MM. HH:mm";
+    public static String DAY_MONTH_YEAR_HOUR_MINUTE = "dd.MM.yyyy HH:mm";
+    public static String HOUR_MINUTE = "HH:mm";
+
     @TypeConverter
     public static Date fromTimestamp(Long value) {
         return value == null ? null : new Date(value);
@@ -23,19 +32,50 @@ public class Converters {
         if (date != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            return calendar.get(Calendar.HOUR_OF_DAY) + "h " + calendar.get(Calendar.MINUTE) + "m";
+            if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
+                return calendar.get(Calendar.MINUTE) + " min";
+            }
+            return calendar.get(Calendar.HOUR_OF_DAY) + " h " + calendar.get(Calendar.MINUTE) + " min";
         } else {
             return null;
         }
     }
 
-    public static String dateToString(Date date) {
+    public static String dateToString(Date date, String format) {
 
         if (date != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(format);
             return dateFormat.format(date);
         } else {
             return null;
         }
+    }
+
+    public static String getDayOfWeek(Context context, int value) {
+        String day = "";
+        switch (value) {
+            case 1:
+                day = context.getString(R.string.sunday);
+                break;
+            case 2:
+                day = context.getString(R.string.monday);
+                break;
+            case 3:
+                day = context.getString(R.string.tuesday);
+                break;
+            case 4:
+                day = context.getString(R.string.wednesday);
+                break;
+            case 5:
+                day = context.getString(R.string.thursday);
+                break;
+            case 6:
+                day = context.getString(R.string.friday);
+                break;
+            case 7:
+                day = context.getString(R.string.saturday);
+                break;
+        }
+        return day;
     }
 }

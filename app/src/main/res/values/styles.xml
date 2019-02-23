@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <style name="AppTheme" parent="AppThemeBase" />
@@ -11,6 +11,7 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="colorOnSecondary">@color/secondaryLightColor</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="android:actionOverflowButtonStyle">@style/OptionsDotsTheme</item>
         <item name="android:listViewStyle">@style/Widget.MyTheme.ListView</item>
         <item name="android:scrollViewStyle">@style/Widget.MyTheme.ScrollView</item>
@@ -27,5 +28,6 @@
     <style name="OptionsDotsTheme" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/primaryTextColor</item>
     </style>
+
 
 </resources>

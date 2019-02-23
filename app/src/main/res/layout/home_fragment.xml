@@ -11,7 +11,8 @@
         <import type="android.view.View" />
     </data>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,8 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_gravity="top|center"
             android:text="@string/no_tasks"
             android:textSize="18sp"
             android:layout_margin="16dp"
@@ -37,5 +37,5 @@
         </androidx.recyclerview.widget.RecyclerView>
 
 
-    </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

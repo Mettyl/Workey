@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.mety.workey.data.dao.TaskDao;
+import com.mety.workey.data.dao.TimeZoneDao;
 import com.mety.workey.data.entity.Task;
+import com.mety.workey.data.entity.TimeZone;
 
 import java.util.List;
 
@@ -13,14 +15,19 @@ import androidx.lifecycle.LiveData;
 public class Repository {
 
     private LiveData<List<Task>> tasks;
+    private LiveData<List<TimeZone>> timeZones;
     private TaskDao taskDao;
+    private TimeZoneDao timeZoneDao;
 
     public Repository(Context context) {
-
-        taskDao = AppDatabase.getAppDatabase(context).taskDao();
+        AppDatabase database = AppDatabase.getAppDatabase(context);
+        taskDao = database.taskDao();
+        timeZoneDao = database.timeZoneDao();
         tasks = taskDao.getAll();
+        timeZones = timeZoneDao.getAll();
     }
 
+    ///////////// TASK \\\\\\\\\\\\\\
 
     public void insert(Task task) {
         new InsertTaskAsyncTask(taskDao).execute(task);
@@ -97,5 +104,84 @@ public class Repository {
             return null;
         }
     }
+
+    ///////////// TIMEZONE \\\\\\\\\\\\\\
+
+    public void insert(TimeZone[] timeZone) {
+        new InsertTimeZoneAsyncTask(timeZoneDao).execute(timeZone);
+    }
+
+    public void update(TimeZone timeZone) {
+        new UpdateTimeZoneAsyncTask(timeZoneDao).execute(timeZone);
+    }
+
+    public void delete(TimeZone timeZone) {
+        new DeleteTimeZoneAsyncTask(timeZoneDao).execute(timeZone);
+    }
+
+    public void deleteAllTimeZones() {
+        new DeleteAllTimeZonesAsyncTask(timeZoneDao).execute();
+    }
+
+    public LiveData<List<TimeZone>> getAllTimeZones() {
+        return timeZones;
+    }
+
+    private static class InsertTimeZoneAsyncTask extends AsyncTask<TimeZone, Void, Void> {
+        private TimeZoneDao timeZoneDao;
+
+        private InsertTimeZoneAsyncTask(TimeZoneDao timeZoneDao) {
+            this.timeZoneDao = timeZoneDao;
+        }
+
+        @Override
+        protected Void doInBackground(TimeZone... timeZones) {
+            timeZoneDao.insert(timeZones);
+            return null;
+        }
+    }
+
+    private static class UpdateTimeZoneAsyncTask extends AsyncTask<TimeZone, Void, Void> {
+        private TimeZoneDao timeZoneDao;
+
+        private UpdateTimeZoneAsyncTask(TimeZoneDao timeZoneDao) {
+            this.timeZoneDao = timeZoneDao;
+        }
+
+        @Override
+        protected Void doInBackground(TimeZone... timeZones) {
+            timeZoneDao.update(timeZones[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteTimeZoneAsyncTask extends AsyncTask<TimeZone, Void, Void> {
+        private TimeZoneDao timeZoneDao;
+
+        private DeleteTimeZoneAsyncTask(TimeZoneDao timeZoneDao) {
+            this.timeZoneDao = timeZoneDao;
+        }
+
+        @Override
+        protected Void doInBackground(TimeZone... timeZones) {
+            timeZoneDao.delete(timeZones[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAllTimeZonesAsyncTask extends AsyncTask<Void, Void, Void> {
+        private TimeZoneDao timeZoneDao;
+
+        private DeleteAllTimeZonesAsyncTask(TimeZoneDao timeZoneDao) {
+            this.timeZoneDao = timeZoneDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            timeZoneDao.deleteAllTimeZones();
+            return null;
+        }
+    }
+
 
 }

@@ -6,7 +6,7 @@
             android:icon="@drawable/ic_agenda_black_24dp"
             android:title="Agenda" />
         <item
-            android:id="@+id/none"
+            android:id="@+id/nav_graph_time_zone_fragment"
             android:title="Work time"
             android:icon="@drawable/ic_date_range_black_24dp" />
         <item

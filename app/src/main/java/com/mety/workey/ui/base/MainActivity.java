@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     BottomAppBar bottomAppBar;
     FloatingActionButton fab;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomAppBar = binding.bottomAppBar;
         fab = binding.floatingActionButton;
+        coordinatorLayout = binding.container;
 
 
         //Setting up navigation component with toolbar
@@ -49,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                if (fab.isOrWillBeHidden()) {
+                    fab.show();
+                }
                 fab.hide(new FloatingActionButton.OnVisibilityChangedListener() {
                     @Override
                     public void onHidden(FloatingActionButton fab) {
@@ -59,15 +65,23 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_graph_home_fragment:
                                 params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                                 centerFab();
+                                bottomAppBar.replaceMenu(R.menu.bottom_bar_menu);
+                                fab.show();
                                 break;
                             case R.id.nav_graph_new_task:
                                 binding.appBarLayout.setExpanded(true, false);
                                 params.setScrollFlags(0);
                                 new BottomAppBar.Behavior().slideUp(bottomAppBar);
-                                endFab(R.drawable.ic_done_black_24dp, R.menu.bottom_bar_new_task_menu);
+                                endFab(R.drawable.ic_done_black_24dp);
+                                bottomAppBar.replaceMenu(R.menu.bottom_bar_new_task_menu);
+                                fab.show();
                                 break;
+                            case R.id.nav_graph_time_zone_fragment:
+                                binding.appBarLayout.setExpanded(true, false);
+                                new BottomAppBar.Behavior().slideUp(bottomAppBar);
+                                bottomAppBar.replaceMenu(R.menu.bottom_bar_menu);
                         }
-                        fab.show();
+
                     }
                 });
             }
@@ -133,20 +147,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void centerFab() {
-
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-        bottomAppBar.replaceMenu(R.menu.bottom_bar_menu);
         fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
         bottomAppBar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_white_24dp));
     }
 
 
-    void endFab(final int fabIcon, final int menu) {
-
+    void endFab(final int fabIcon) {
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
         fab.setImageDrawable(getResources().getDrawable(fabIcon));
         bottomAppBar.setNavigationIcon(null);
-        bottomAppBar.replaceMenu(menu);
+    }
 
+
+    public CoordinatorLayout getCoordinatorLayout() {
+        return coordinatorLayout;
     }
 }
