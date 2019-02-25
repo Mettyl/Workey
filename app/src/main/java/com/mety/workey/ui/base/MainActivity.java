@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.toolbar, navController);
 
 
-        //Change fab position according to current destination
+        //Change fab position and menu according to current destination
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
@@ -63,21 +63,27 @@ public class MainActivity extends AppCompatActivity {
 
                         switch (navController.getCurrentDestination() == null ? -1 : navController.getCurrentDestination().getId()) {
                             case R.id.nav_graph_home_fragment:
+
+                                //scrolling toolbar
                                 params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                                 centerFab();
                                 bottomAppBar.replaceMenu(R.menu.bottom_bar_menu);
                                 fab.show();
                                 break;
                             case R.id.nav_graph_new_task:
+                                //static toolbar
                                 binding.appBarLayout.setExpanded(true, false);
                                 params.setScrollFlags(0);
+                                //show bottom app bar
                                 new BottomAppBar.Behavior().slideUp(bottomAppBar);
+
                                 endFab(R.drawable.ic_done_black_24dp);
                                 bottomAppBar.replaceMenu(R.menu.bottom_bar_new_task_menu);
                                 fab.show();
                                 break;
                             case R.id.nav_graph_time_zone_fragment:
                                 binding.appBarLayout.setExpanded(true, false);
+                                params.setScrollFlags(0);
                                 new BottomAppBar.Behavior().slideUp(bottomAppBar);
                                 bottomAppBar.replaceMenu(R.menu.bottom_bar_menu);
                         }
@@ -108,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        //Opens up navigation drawer
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Handle menu item clicks
         bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -152,13 +159,11 @@ public class MainActivity extends AppCompatActivity {
         bottomAppBar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_white_24dp));
     }
 
-
     void endFab(final int fabIcon) {
         bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
         fab.setImageDrawable(getResources().getDrawable(fabIcon));
         bottomAppBar.setNavigationIcon(null);
     }
-
 
     public CoordinatorLayout getCoordinatorLayout() {
         return coordinatorLayout;

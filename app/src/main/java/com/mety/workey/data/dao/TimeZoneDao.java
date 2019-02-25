@@ -17,6 +17,9 @@ public interface TimeZoneDao {
     @Query("SELECT * FROM timezone")
     LiveData<List<TimeZone>> getAll();
 
+    @Query("SELECT * FROM timezone ORDER BY day ASC")
+    List<TimeZone> getList();
+
     @Insert
     void insert(TimeZone... timeZones);
 

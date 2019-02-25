@@ -14,6 +14,10 @@ public class Logger {
         i(Integer.toString(message));
     }
 
+    public static void i(long message) {
+        i(Long.toString(message));
+    }
+
     public static void i(String message) {
         Log.i(TAG, message);
     }

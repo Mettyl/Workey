@@ -25,6 +25,8 @@ public class Repository {
         timeZoneDao = database.timeZoneDao();
         tasks = taskDao.getAll();
         timeZones = timeZoneDao.getAll();
+
+
     }
 
     ///////////// TASK \\\\\\\\\\\\\\
@@ -127,6 +129,7 @@ public class Repository {
         return timeZones;
     }
 
+
     private static class InsertTimeZoneAsyncTask extends AsyncTask<TimeZone, Void, Void> {
         private TimeZoneDao timeZoneDao;
 
@@ -140,6 +143,7 @@ public class Repository {
             return null;
         }
     }
+
 
     private static class UpdateTimeZoneAsyncTask extends AsyncTask<TimeZone, Void, Void> {
         private TimeZoneDao timeZoneDao;
@@ -183,5 +187,11 @@ public class Repository {
         }
     }
 
+    public TaskDao getTaskDao() {
+        return taskDao;
+    }
 
+    public TimeZoneDao getTimeZoneDao() {
+        return timeZoneDao;
+    }
 }

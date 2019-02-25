@@ -23,10 +23,10 @@ public class Task extends BaseObservable {
     private int priority;
     private boolean finished;
     private Date start;
-    private Date duration;
+    private int duration;
     private Date deadline;
 
-    public Task(String name, String description, int priority, boolean finished, Date duration, Date deadline) {
+    public Task(String name, String description, int priority, boolean finished, int duration, Date deadline) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -40,6 +40,7 @@ public class Task extends BaseObservable {
         this.name = "";
         this.description = "";
         this.priority = 0;
+        this.duration = 10 * 60 * 1000;
         this.finished = false;
     }
 
@@ -72,7 +73,7 @@ public class Task extends BaseObservable {
     }
 
     @Bindable
-    public Date getDuration() {
+    public int getDuration() {
         return duration;
     }
 
@@ -106,7 +107,7 @@ public class Task extends BaseObservable {
         notifyPropertyChanged(BR.finished);
     }
 
-    public void setDuration(Date duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
         notifyPropertyChanged(BR.duration);
     }

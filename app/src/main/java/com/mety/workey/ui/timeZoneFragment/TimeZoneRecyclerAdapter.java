@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.DiffUtil;
 
 public class TimeZoneRecyclerAdapter extends MyBaseRecyclerAdapter<TimeZone> {
 
+    private TimeZoneFragment fragment;
 
-    public TimeZoneRecyclerAdapter() {
+    public TimeZoneRecyclerAdapter(TimeZoneFragment fragment) {
         super(DIFF_CALLBACK);
+        this.fragment = fragment;
     }
 
     private static final DiffUtil.ItemCallback<TimeZone> DIFF_CALLBACK = new DiffUtil.ItemCallback<TimeZone>() {
@@ -24,9 +26,15 @@ public class TimeZoneRecyclerAdapter extends MyBaseRecyclerAdapter<TimeZone> {
 
         @Override
         public boolean areContentsTheSame(@NonNull TimeZone oldItem, @NonNull TimeZone newItem) {
-            return false;
+            return true;
         }
     };
+
+    @Override
+    public void onBindViewHolder(@NonNull MyBaseRecyclerAdapter.MyViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        holder.getBinding().setVariable(BR.timeZoneFragment, fragment);
+    }
 
     @Override
     public int getLayoutId() {
@@ -36,5 +44,12 @@ public class TimeZoneRecyclerAdapter extends MyBaseRecyclerAdapter<TimeZone> {
     @Override
     public int getBRValue() {
         return BR.timeZone;
+    }
+
+    public interface TimeZoneListener {
+
+        void onStartTimeClick(TimeZone zone);
+
+        void onEndTimeClick(TimeZone zone);
     }
 }

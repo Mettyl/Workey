@@ -41,6 +41,30 @@ public class Converters {
         }
     }
 
+    public static String timeToString(int milliseconds) {
+
+        if (milliseconds == 0) {
+            return null;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, Converters.milliToHour(milliseconds));
+        calendar.set(Calendar.MINUTE, Converters.milliToMinute(milliseconds));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(HOUR_MINUTE);
+        return dateFormat.format(calendar.getTime());
+
+    }
+
+    public static int milliToHour(int milliseconds) {
+        return milliseconds / (60 * 60 * 1000);
+    }
+
+    public static int milliToMinute(int milliseconds) {
+        return (milliseconds / (60 * 1000) % 60);
+    }
+
+
     public static String dateToString(Date date, String format) {
 
         if (date != null) {
