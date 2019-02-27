@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class MyBaseRecyclerAdapter<Entity> extends ListAdapter<Entity, MyBaseRecyclerAdapter.MyViewHolder> {
+public abstract class MyBaseRecyclerAdapter extends ListAdapter<ListItem, MyBaseRecyclerAdapter.MyViewHolder> {
 
 
-    public MyBaseRecyclerAdapter(DiffUtil.ItemCallback<Entity> diff_callback) {
+    public static final int LAYOUT_HEADER = 0;
+    public static final int LAYOUT_ITEM = 1;
+
+    public MyBaseRecyclerAdapter(DiffUtil.ItemCallback<ListItem> diff_callback) {
         super(diff_callback);
     }
 
@@ -22,15 +25,31 @@ public abstract class MyBaseRecyclerAdapter<Entity> extends ListAdapter<Entity, 
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ViewDataBinding dataBinding = DataBindingUtil.inflate(layoutInflater, getLayoutId(), parent, false);
+        ViewDataBinding dataBinding;
+
+        if (viewType == LAYOUT_HEADER) {
+            dataBinding = DataBindingUtil.inflate(layoutInflater, getHeaderLayoutId(), parent, false);
+        } else {
+            dataBinding = DataBindingUtil.inflate(layoutInflater, getLayoutId(), parent, false);
+        }
 
         return new MyViewHolder(dataBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyBaseRecyclerAdapter.MyViewHolder holder, int position) {
+    public int getItemViewType(int position) {
+        if (getItem(position).isHeader())
+            return LAYOUT_HEADER;
+        return LAYOUT_ITEM;
+    }
 
-        holder.bind(getBRValue(), getItem(position));
+    @Override
+    public void onBindViewHolder(@NonNull MyBaseRecyclerAdapter.MyViewHolder holder, int position) {
+        if (holder.getItemViewType() == LAYOUT_HEADER) {
+            holder.bind(getHeaderBRValue(), getItem(position));
+        } else {
+            holder.bind(getBRValue(), getItem(position));
+        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -59,10 +78,18 @@ public abstract class MyBaseRecyclerAdapter<Entity> extends ListAdapter<Entity, 
      */
     public abstract int getLayoutId();
 
+    public int getHeaderLayoutId() {
+        return 0;
+    }
+
     /**
      * Specify the name of data binding variable used.
      *
      * @return Id of generated variable
      */
     public abstract int getBRValue();
+
+    public int getHeaderBRValue() {
+        return 0;
+    }
 }

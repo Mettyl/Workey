@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch (navController.getCurrentDestination() == null ? -1 : navController.getCurrentDestination().getId()) {
                     case R.id.nav_graph_home_fragment:
-                        navController.navigate(R.id.nav_graph_new_task);
+                        navController.navigate(R.id.action_homeFragment_to_newTaskFragment);
                         break;
                     case R.id.nav_graph_new_task:
                         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager().getPrimaryNavigationFragment();

@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.mety.workey.R;
-import com.mety.workey.ui.base.Logger;
+import com.mety.workey.ui.base.MyBaseRecyclerAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -43,47 +43,56 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        Logger.i(direction);
+        if (viewHolder.getItemViewType() == MyBaseRecyclerAdapter.LAYOUT_ITEM) {
+            if (direction == 4) {
+                adapter.deleteItem(position);
+            } else {
+                adapter.checkItem(position);
+            }
+        }
     }
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-        View itemView = viewHolder.itemView;
-        int backgroundCornerOffset = 20;
+        if (viewHolder.getItemViewType() == MyBaseRecyclerAdapter.LAYOUT_ITEM) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-        int iconMargin = (itemView.getHeight() - rightSwipeIcon.getIntrinsicHeight()) / 2;
-        int iconTop = itemView.getTop() + (itemView.getHeight() - rightSwipeIcon.getIntrinsicHeight()) / 2;
-        int iconBottom = iconTop + rightSwipeIcon.getIntrinsicHeight();
+            View itemView = viewHolder.itemView;
+            int backgroundCornerOffset = 20;
 
-        if (dX > 0) { //Swiping to the right
+            int iconMargin = (itemView.getHeight() - rightSwipeIcon.getIntrinsicHeight()) / 2;
+            int iconTop = itemView.getTop() + (itemView.getHeight() - rightSwipeIcon.getIntrinsicHeight()) / 2;
+            int iconBottom = iconTop + rightSwipeIcon.getIntrinsicHeight();
 
-            int iconLeft = itemView.getLeft() + iconMargin;
-            int iconRight = itemView.getLeft() + iconMargin + rightSwipeIcon.getIntrinsicWidth();
-            rightSwipeIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            if (dX > 0) { //Swiping to the right
 
-            rightSwipeBackground.setBounds(itemView.getLeft(), itemView.getTop(),
-                    itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
+                int iconLeft = itemView.getLeft() + iconMargin;
+                int iconRight = itemView.getLeft() + iconMargin + rightSwipeIcon.getIntrinsicWidth();
+                rightSwipeIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-            rightSwipeBackground.draw(c);
-            rightSwipeIcon.draw(c);
+                rightSwipeBackground.setBounds(itemView.getLeft(), itemView.getTop(),
+                        itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
 
-        } else if (dX < 0) { //Swiping to the left
+                rightSwipeBackground.draw(c);
+                rightSwipeIcon.draw(c);
 
-            int iconLeft = itemView.getRight() - iconMargin - leftSwipeIcon.getIntrinsicWidth();
-            int iconRight = itemView.getRight() - iconMargin;
-            leftSwipeIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            } else if (dX < 0) { //Swiping to the left
 
-            leftSwipeBackground.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
-                    itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                int iconLeft = itemView.getRight() - iconMargin - leftSwipeIcon.getIntrinsicWidth();
+                int iconRight = itemView.getRight() - iconMargin;
+                leftSwipeIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-            leftSwipeBackground.draw(c);
-            leftSwipeIcon.draw(c);
+                leftSwipeBackground.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
+                        itemView.getTop(), itemView.getRight(), itemView.getBottom());
 
-        } else { //View is unSwiped
-            rightSwipeBackground.setBounds(0, 0, 0, 0);
-            leftSwipeBackground.setBounds(0, 0, 0, 0);
+                leftSwipeBackground.draw(c);
+                leftSwipeIcon.draw(c);
+
+            } else { //View is unSwiped
+                rightSwipeBackground.setBounds(0, 0, 0, 0);
+                leftSwipeBackground.setBounds(0, 0, 0, 0);
+            }
         }
 
     }

@@ -26,6 +26,7 @@ public class TaskViewModel extends ObservableViewModel {
         repository = new Repository(application);
         tasks = repository.getAllTasks();
         currentlyCreatedTask = new Task();
+        isTimeForTask = true;
     }
 
     // Main database access

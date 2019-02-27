@@ -2,18 +2,19 @@ package com.mety.workey.data.entity;
 
 
 import com.mety.workey.BR;
+import com.mety.workey.data.converters.Converters;
+import com.mety.workey.ui.base.ListItem;
 
 import java.util.Date;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Task extends BaseObservable {
+public class Task extends ListItem {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -126,6 +127,13 @@ public class Task extends BaseObservable {
     @NonNull
     @Override
     public String toString() {
-        return "Task {" + Integer.toString(id) + "; " + name + "; " + Integer.toString(priority) + "; " + finished + "} ";
+        return "Task {" + Integer.toString(id) + "; " + name + "; " + "Start: " + Converters.dateToString(start, Converters.DAY_MONTH_HOUR_MINUTE) + "; " + "Duration: "
+                + Converters.timeToString(duration) + "; " + "Deadline: " + Converters.dateToString(deadline
+                , Converters.DAY_MONTH_HOUR_MINUTE) + "; " + finished + "} ";
+    }
+
+    @Override
+    public boolean isHeader() {
+        return false;
     }
 }

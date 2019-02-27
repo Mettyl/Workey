@@ -3,12 +3,13 @@ package com.mety.workey.ui.timeZoneFragment;
 import com.mety.workey.BR;
 import com.mety.workey.R;
 import com.mety.workey.data.entity.TimeZone;
+import com.mety.workey.ui.base.ListItem;
 import com.mety.workey.ui.base.MyBaseRecyclerAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
-public class TimeZoneRecyclerAdapter extends MyBaseRecyclerAdapter<TimeZone> {
+public class TimeZoneRecyclerAdapter extends MyBaseRecyclerAdapter {
 
     private TimeZoneFragment fragment;
 
@@ -17,16 +18,17 @@ public class TimeZoneRecyclerAdapter extends MyBaseRecyclerAdapter<TimeZone> {
         this.fragment = fragment;
     }
 
-    private static final DiffUtil.ItemCallback<TimeZone> DIFF_CALLBACK = new DiffUtil.ItemCallback<TimeZone>() {
+    private static final DiffUtil.ItemCallback<ListItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ListItem>() {
 
         @Override
-        public boolean areItemsTheSame(@NonNull TimeZone oldItem, @NonNull TimeZone newItem) {
-            return oldItem.getId() == newItem.getId();
+        public boolean areItemsTheSame(@NonNull ListItem oldItem, @NonNull ListItem newItem) {
+            return ((TimeZone) oldItem).getId() == ((TimeZone) newItem).getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull TimeZone oldItem, @NonNull TimeZone newItem) {
-            return true;
+        public boolean areContentsTheSame(@NonNull ListItem oldItem, @NonNull ListItem newItem) {
+            return ((TimeZone) oldItem).getZoneStart() == ((TimeZone) newItem).getZoneStart()
+                    && ((TimeZone) oldItem).getZoneEnd() == ((TimeZone) newItem).getZoneEnd();
         }
     };
 

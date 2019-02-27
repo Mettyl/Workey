@@ -16,6 +16,8 @@
             type="com.mety.workey.ui.newTaskFragment.NewTaskFragment" />
 
         <import type="com.mety.workey.data.converters.Converters" />
+
+        <import type="android.view.View" />
     </data>
 
     <ScrollView
@@ -37,7 +39,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:hint="@string/name"
-                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -58,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:hint="@string/description"
@@ -181,8 +183,9 @@
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:text="@{fragment.viewModel.timeForTask ? @string/enough_time : @string/not_enough_time}"
-                android:textColor="@{fragment.viewModel.timeForTask ? @color/primaryColor : @color/design_default_color_error}"
+                android:text="@string/not_enough_time"
+                android:textColor="@color/design_default_color_error"
+                android:visibility="@{fragment.viewModel.timeForTask ? View.GONE : View.VISIBLE}"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

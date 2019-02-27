@@ -3,6 +3,7 @@ package com.mety.workey.data.converters;
 import android.content.Context;
 
 import com.mety.workey.R;
+import com.mety.workey.data.entity.Task;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ public class Converters {
     public static String DAY_MONTH_HOUR_MINUTE = "dd. MM. HH:mm";
     public static String DAY_MONTH_YEAR_HOUR_MINUTE = "dd.MM.yyyy HH:mm";
     public static String HOUR_MINUTE = "HH:mm";
+    public static String DAY_MONTH = "dd. MM.";
 
     @TypeConverter
     public static Date fromTimestamp(Long value) {
@@ -43,7 +45,7 @@ public class Converters {
 
     public static String timeToString(int milliseconds) {
 
-        if (milliseconds == 0) {
+        if (milliseconds == 0 || milliseconds == 24 * 60 * 60 * 1000) {
             return null;
         }
 
@@ -73,6 +75,23 @@ public class Converters {
         } else {
             return null;
         }
+    }
+
+    public static String startPlusDuration(Task task, String format) {
+
+        if (task != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+            return dateFormat.format(new Date(task.getStart().getTime() + task.getDuration()));
+        } else {
+            return null;
+        }
+    }
+
+    public static String dateToWeekDay(Date date, Context context) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        return getDayOfWeek(context, calendar.get(Calendar.DAY_OF_WEEK));
     }
 
     public static String getDayOfWeek(Context context, int value) {

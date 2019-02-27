@@ -12,10 +12,12 @@ import com.mety.workey.R;
 import com.mety.workey.data.converters.Converters;
 import com.mety.workey.data.entity.TimeZone;
 import com.mety.workey.databinding.TimeZoneFragmentBinding;
+import com.mety.workey.ui.base.ListItem;
 import com.mety.workey.ui.base.Logger;
 import com.mety.workey.ui.base.MainActivity;
 import com.mety.workey.ui.viewModels.TimeZoneViewModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,7 +58,8 @@ public class TimeZoneFragment extends Fragment {
         viewModel.getAllTimeZones().observe(getViewLifecycleOwner(), new Observer<List<TimeZone>>() {
             @Override
             public void onChanged(List<TimeZone> timeZones) {
-                adapter.submitList(timeZones);
+                List<ListItem> list = new ArrayList<ListItem>(timeZones);
+                adapter.submitList(list);
             }
         });
 

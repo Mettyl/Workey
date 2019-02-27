@@ -1,11 +1,13 @@
 package com.mety.workey.ui.base;
 
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mety.workey.R;
 import com.mety.workey.data.converters.Converters;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import androidx.core.content.ContextCompat;
@@ -42,5 +44,25 @@ public class BindingAdapters {
             imageView.setColorFilter(ContextCompat.getColor(imageView.getContext(), R.color.textColor));
         }
     }
+
+    @BindingAdapter("setHeaderTvColor")
+    public static void setHeaderTvColor(TextView textView, Date date) {
+        Calendar now = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        if (now.get(Calendar.DATE) == calendar.get(Calendar.DATE)) {
+            textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.secondaryColor));
+        } else {
+            textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.primaryColor));
+        }
+
+    }
+
+    @BindingAdapter("setDrawable")
+    public static void setDrawable(ImageView view, Drawable drawable) {
+        view.setImageDrawable(drawable);
+    }
+
 
 }

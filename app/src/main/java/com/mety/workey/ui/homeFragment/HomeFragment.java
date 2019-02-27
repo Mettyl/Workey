@@ -9,9 +9,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.mety.workey.R;
 import com.mety.workey.data.entity.Task;
 import com.mety.workey.databinding.HomeFragmentBinding;
+import com.mety.workey.ui.base.ListItem;
 import com.mety.workey.ui.base.MainActivity;
 import com.mety.workey.ui.viewModels.TaskViewModel;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -67,7 +70,35 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(List<Task> tasks) {
                 dataBinding.setSize(tasks.size());
-                adapter.submitList(tasks);
+                if (tasks.size() != 0) {
+
+                    List<ListItem> list = new ArrayList<>();
+
+                    Task previousTask = tasks.get(0);
+
+                    Calendar previousTaskCal = Calendar.getInstance();
+                    Calendar taskCal = Calendar.getInstance();
+
+                    for (Task task : tasks) {
+
+                        if (previousTask != null) {
+                            if (previousTask == task) {
+                                list.add(new DateHeader(task.getStart()));
+                                list.add(task);
+                            } else {
+                                previousTaskCal.setTime(previousTask.getStart());
+                                taskCal.setTime(task.getStart());
+                                if (previousTaskCal.get(Calendar.DATE) != taskCal.get(Calendar.DATE)) {
+                                    list.add(new DateHeader(task.getStart()));
+                                    list.add(task);
+                                } else {
+                                    list.add(task);
+                                }
+                            }
+                        }
+                    }
+                    adapter.submitList(list);
+                }
             }
         });
 

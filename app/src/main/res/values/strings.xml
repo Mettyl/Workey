@@ -18,7 +18,7 @@
     <string name="no_tasks">You don\'t have any tasks.</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
-    <string name="incorrect_date">Incorrect date</string>
+    <string name="incorrect_date">Incorrect headerDate</string>
     <string name="enter_task_name">Enter task name!</string>
     <string name="undo">Undo</string>
     <string name="task_removed">The task was removed.</string>
@@ -37,4 +37,5 @@
     <string name="insert_duration_and_deadline">Insert duration and deadline first.</string>
     <string name="not_enough_time">There is not enough time for this task.</string>
     <string name="enough_time">Enough time for this task</string>
+    <string name="time_null">Duration can not be zero.</string>
 </resources>

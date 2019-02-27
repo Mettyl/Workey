@@ -18,7 +18,14 @@
             app:popExitAnim="@anim/anim_slide_out_right" />
         <action
             android:id="@+id/action_nav_graph_home_fragment_to_timeZoneFragment"
-            app:destination="@id/nav_graph_time_zone_fragment" />
+            app:destination="@id/nav_graph_time_zone_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_nav_graph_home_fragment_to_blockingFragment"
+            app:destination="@id/nav_graph_blocking_fragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_graph_new_task"
@@ -30,4 +37,14 @@
         android:name="com.mety.workey.ui.timeZoneFragment.TimeZoneFragment"
         android:label="Time zones"
         tools:layout="@layout/time_zone_fragment" />
+    <activity
+        android:id="@+id/blockingActivity"
+        android:name="com.mety.workey.ui.blockingFragment.BlockingActivity"
+        android:label="activity_block"
+        tools:layout="@layout/activity_block" />
+    <fragment
+        android:id="@+id/nav_graph_blocking_fragment"
+        android:name="com.mety.workey.ui.blockingFragment.BlockingFragment"
+        android:label="Block apps"
+        tools:layout="@layout/blocking_fragment" />
 </navigation>
