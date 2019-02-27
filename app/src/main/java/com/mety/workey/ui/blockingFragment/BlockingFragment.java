@@ -9,14 +9,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mety.workey.R;
 import com.mety.workey.databinding.BlockingFragmentBinding;
-import com.mety.workey.ui.base.ListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class BlockingFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.blocking_fragment, container, false);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        BlockingFragmentRecyclerAdapter adapter = new BlockingFragmentRecyclerAdapter();
+        BlockingFragmentRecyclerAdapter adapter = new BlockingFragmentRecyclerAdapter(getContext(), new ArrayList<InstalledAppData>());
 
         //initialization of recyclerView
         initRecycler(adapter);
@@ -50,11 +51,18 @@ public class BlockingFragment extends Fragment {
         loader = new LoadApps();
         loader.execute();
 
+        //Asp for permissions
+        if (!isAccessToUsageStats()) {
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
+
+
         return binding.getRoot();
     }
 
     private void initRecycler(RecyclerView.Adapter adapter) {
-        RecyclerView recyclerView = binding.blockingFragmentRecyclerAdapter;
+        RecyclerView recyclerView = binding.blockingFragmentRecycler;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -78,12 +86,12 @@ public class BlockingFragment extends Fragment {
             for (int i = 0; i < packs.size(); i++) {
                 PackageInfo p = packs.get(i);
 
-                if ((!isSystemPackage(p))) {
-                    String appName = p.applicationInfo.loadLabel(getActivity().getPackageManager()).toString();
-                    String packageName = p.applicationInfo.packageName;
-                    Drawable icon = p.applicationInfo.loadIcon(getActivity().getPackageManager());
-                    res.add(new InstalledAppData(appName, packageName, icon));
-                }
+                //    if ((!isSystemPackage(p))) {
+                String appName = p.applicationInfo.loadLabel(getActivity().getPackageManager()).toString();
+                String packageName = p.applicationInfo.packageName;
+                Drawable icon = p.applicationInfo.loadIcon(getActivity().getPackageManager());
+                res.add(new InstalledAppData(appName, packageName, icon));
+                //      }
             }
             return res;
         }
@@ -91,8 +99,7 @@ public class BlockingFragment extends Fragment {
         @Override
         protected void onPostExecute(List<InstalledAppData> installedAppData) {
             super.onPostExecute(installedAppData);
-            ((BlockingFragmentRecyclerAdapter) binding.blockingFragmentRecyclerAdapter.getAdapter())
-                    .submitList(new ArrayList<ListItem>(installedAppData));
+            binding.blockingFragmentRecycler.setAdapter(new BlockingFragmentRecyclerAdapter(getContext(), installedAppData));
             binding.blockingFragmentLoadingTv.setVisibility(View.GONE);
         }
     }
@@ -104,25 +111,26 @@ public class BlockingFragment extends Fragment {
      */
     private boolean isAccessToUsageStats() {
         try {
-            PackageManager packageManager = getActivity().getPackageManager();
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getActivity().getPackageName(), 0);
-            AppOpsManager appOpsManager = (AppOpsManager) getActivity().getSystemService(Context.APP_OPS_SERVICE);
-            int mode = 0;
-            if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.KITKAT) {
+            if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                PackageManager packageManager = getActivity().getPackageManager();
+                ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getActivity().getPackageName(), 0);
+                AppOpsManager appOpsManager = (AppOpsManager) getActivity().getSystemService(Context.APP_OPS_SERVICE);
+                int mode = 0;
                 mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
                         applicationInfo.uid, applicationInfo.packageName);
+                return (mode == AppOpsManager.MODE_ALLOWED);
             }
-            return (mode == AppOpsManager.MODE_ALLOWED);
 
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+        return false;
     }
 
     /**
      * Opens power manager according to phone brand
      */
-    private void openPowerManager() {
+    public void openPowerManager() {
 
         final Intent[] POWERMANAGER_INTENTS = {
                 new Intent().setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
@@ -153,6 +161,19 @@ public class BlockingFragment extends Fragment {
      */
     private boolean isSystemPackage(PackageInfo pkgInfo) {
         return (pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
+    }
+
+    public void stopService() {
+        getActivity().stopService(new Intent(getContext(), BlockingService.class));
+    }
+
+    public void startService() {
+        ArrayList<String> list = ((BlockingFragmentRecyclerAdapter) binding.blockingFragmentRecycler.getAdapter()).getCheckedPackages();
+        if (list != null && list.size() > 0) {
+            Intent intent = new Intent(getContext(), BlockingService.class);
+            intent.putStringArrayListExtra("info", list);
+            getActivity().startService(intent);
+        }
     }
 
 

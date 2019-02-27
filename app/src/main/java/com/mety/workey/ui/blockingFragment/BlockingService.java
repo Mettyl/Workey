@@ -1,7 +1,8 @@
 package com.mety.workey.ui.blockingFragment;
 
 import android.app.ActivityManager;
-import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.usage.UsageStats;
@@ -19,6 +20,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 
 public class BlockingService extends Service {
@@ -65,21 +67,29 @@ public class BlockingService extends Service {
         }
         start();
 
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent =
-                PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        for (String s : packages) {
+            Logger.i(s);
+        }
 
-        Notification notification =
-                new Notification.Builder(this)
-                        .setContentTitle("Workey")
-                        .setContentText("Controling usage")
-                        //   .setSmallIcon(R.drawable.lock_icon)
-                        .setContentIntent(pendingIntent)
-                        .setTicker("Workey")
-                        .build();
+        NotificationCompat.Builder builder;
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O) {
+            builder = new NotificationCompat.Builder(this, "default")
+                    .setContentTitle("Workey")
+                    .setContentText("Blocking selected apps.")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        } else {
+            final String ChannelId = "Workey";
+            final CharSequence ChannelName = "Blocking selected apps.";
+            NotificationChannel channel = new NotificationChannel(ChannelId, ChannelName, NotificationManager.IMPORTANCE_DEFAULT);
+            ((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).
+                    createNotificationChannel(channel);
+            builder = new NotificationCompat.Builder(this, ChannelId);
+        }
 
-        startForeground(1, notification);
 
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        startForeground(1, builder.build());
 
         return START_STICKY;
     }

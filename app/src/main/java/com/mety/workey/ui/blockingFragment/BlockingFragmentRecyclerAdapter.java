@@ -1,61 +1,101 @@
 package com.mety.workey.ui.blockingFragment;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+
 import com.mety.workey.BR;
 import com.mety.workey.R;
-import com.mety.workey.ui.base.ListItem;
-import com.mety.workey.ui.base.MyBaseRecyclerAdapter;
+import com.mety.workey.databinding.BlockingFragmentRowBinding;
+import com.mety.workey.ui.base.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class BlockingFragmentRecyclerAdapter extends MyBaseRecyclerAdapter {
+public class BlockingFragmentRecyclerAdapter extends RecyclerView.Adapter<BlockingFragmentRecyclerAdapter.MyViewHolder> {
 
+    private Context context;
+    private List<InstalledAppData> list;
 
-    public BlockingFragmentRecyclerAdapter() {
-        super(DIFF_CALLBACK);
+    public BlockingFragmentRecyclerAdapter(Context context, List<InstalledAppData> list) {
+        this.context = context;
+        this.list = list;
     }
 
-    private static final DiffUtil.ItemCallback<ListItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ListItem>() {
+    @NonNull
+    @Override
+    public BlockingFragmentRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        @Override
-        public boolean areItemsTheSame(@NonNull ListItem oldItem, @NonNull ListItem newItem) {
-            return false;
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+
+        ViewDataBinding dataBinding = DataBindingUtil.inflate(layoutInflater, R.layout.blocking_fragment_row, parent, false);
+
+        return new BlockingFragmentRecyclerAdapter.MyViewHolder(dataBinding);
+    }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull BlockingFragmentRecyclerAdapter.MyViewHolder holder, final int position) {
+
+        Switch sw = ((BlockingFragmentRowBinding) holder.getBinding()).appRecyclerSwitch;
+        sw.setOnCheckedChangeListener(null);
+        sw.setChecked(list.get(position).isBlocked());
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                list.get(position).setBlocked(isChecked);
+                for (InstalledAppData a : list) {
+                    Logger.i(a.getName() + a.isBlocked());
+                }
+            }
+        });
+        holder.bind(BR.installedAppData, list.get(position));
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    ArrayList<String> getCheckedPackages() {
+        ArrayList<String> strings = new ArrayList<>();
+        for (InstalledAppData appData : list) {
+            if (appData.isBlocked()) {
+                strings.add(appData.getPackageName());
+            }
+        }
+        return strings;
+    }
+
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+        private final ViewDataBinding binding;
+
+        MyViewHolder(final ViewDataBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
-        @Override
-        public boolean areContentsTheSame(@NonNull ListItem oldItem, @NonNull ListItem newItem) {
-            return false;
+        void bind(int br, Object obj) {
+            binding.setVariable(br, obj);
+            binding.executePendingBindings();
         }
-    };
 
-
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-
+        public ViewDataBinding getBinding() {
+            return binding;
+        }
     }
 
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.blocking_fragment_row;
+    public void setList(List<InstalledAppData> list) {
+        this.list = list;
     }
-
-    @Override
-    public int getBRValue() {
-        return BR.installedAppData;
-    }
-
-
-//    public void stopServiceButton(View view) {
-//        stopService(new Intent(this, BlockingService.class));
-//    }
-//
-//    public void startServiceButton(View view) {
-//        Intent intent = new Intent(this, BlockingService.class);
-//        intent.putStringArrayListExtra("info", ((AppsAdapter) recyclerView.getAdapter()).getCheckedPackages());
-//        startService(intent);
-//    }
-
-
 }

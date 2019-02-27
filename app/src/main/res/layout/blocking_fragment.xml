@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/blocking_fragment_recycler_adapter"
+            android:id="@+id/blocking_fragment_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/blocking_fragment_row" />

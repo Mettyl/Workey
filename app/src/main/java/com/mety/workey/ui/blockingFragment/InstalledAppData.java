@@ -41,6 +41,7 @@ public class InstalledAppData extends ListItem {
         this.icon = icon;
     }
 
+
     public boolean isBlocked() {
         return blocked;
     }

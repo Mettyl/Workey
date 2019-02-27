@@ -10,6 +10,7 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mety.workey.R;
 import com.mety.workey.databinding.ActivityMainBinding;
+import com.mety.workey.ui.blockingFragment.BlockingFragment;
 import com.mety.workey.ui.dialogFragments.BottomNavigationDrawerFragment;
 import com.mety.workey.ui.newTaskFragment.NewTaskFragment;
 
@@ -86,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
                                 params.setScrollFlags(0);
                                 new BottomAppBar.Behavior().slideUp(bottomAppBar);
                                 bottomAppBar.replaceMenu(R.menu.bottom_bar_menu);
+                            case R.id.nav_graph_blocking_fragment:
+                                binding.appBarLayout.setExpanded(true, false);
+                                params.setScrollFlags(0);
+                                new BottomAppBar.Behavior().slideUp(bottomAppBar);
+                                bottomAppBar.replaceMenu(R.menu.bottom_bar_blocking_menu);
                         }
 
                     }
@@ -126,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager().getPrimaryNavigationFragment();
                 switch (item.getItemId()) {
                     case R.id.menu_search:
                         Toast.makeText(getApplicationContext(), "Todo", Toast.LENGTH_SHORT).show();
@@ -139,9 +146,25 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.new_task_menu_help:
                         Toast.makeText(getApplicationContext(), "Todo", Toast.LENGTH_SHORT).show();
                         return true;
+                    case R.id.menu_stop_service:
+                        if (fragment instanceof BlockingFragment) {
+                            BlockingFragment blockingFragment = (BlockingFragment) fragment;
+                            blockingFragment.stopService();
+                        }
+                        return true;
+                    case R.id.menu_power_manager:
+                        if (fragment instanceof BlockingFragment) {
+                            BlockingFragment blockingFragment = (BlockingFragment) fragment;
+                            blockingFragment.openPowerManager();
+                        }
+                        return true;
+                    case R.id.menu_start_service:
+                        if (fragment instanceof BlockingFragment) {
+                            BlockingFragment blockingFragment = (BlockingFragment) fragment;
+                            blockingFragment.startService();
+                        }
+                        return true;
                     case R.id.new_task_menu_refresh:
-
-                        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager().getPrimaryNavigationFragment();
                         if (fragment instanceof NewTaskFragment) {
                             NewTaskFragment newTaskFragment = (NewTaskFragment) fragment;
                             newTaskFragment.resetAllViews();
