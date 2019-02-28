@@ -94,6 +94,7 @@ public class HomeFragment extends Fragment {
                                 } else {
                                     list.add(task);
                                 }
+                                previousTask = task;
                             }
                         }
                     }

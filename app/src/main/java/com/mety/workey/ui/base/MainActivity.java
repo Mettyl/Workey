@@ -87,11 +87,13 @@ public class MainActivity extends AppCompatActivity {
                                 params.setScrollFlags(0);
                                 new BottomAppBar.Behavior().slideUp(bottomAppBar);
                                 bottomAppBar.replaceMenu(R.menu.bottom_bar_menu);
+                                break;
                             case R.id.nav_graph_blocking_fragment:
                                 binding.appBarLayout.setExpanded(true, false);
                                 params.setScrollFlags(0);
                                 new BottomAppBar.Behavior().slideUp(bottomAppBar);
                                 bottomAppBar.replaceMenu(R.menu.bottom_bar_blocking_menu);
+                                break;
                         }
 
                     }

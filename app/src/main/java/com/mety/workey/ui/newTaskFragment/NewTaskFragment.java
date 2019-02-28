@@ -180,7 +180,7 @@ public class NewTaskFragment extends Fragment {
             List<TimeZone> timeZones = viewModel.getRepository().getTimeZoneDao().getList();
 
 
-            while (iterationTimeCal.getTimeInMillis() <= deadLineCal.getTimeInMillis()) {
+            while (iterationTimeCal.getTimeInMillis() <= toTimeCal.getTimeInMillis()) {
 
                 //obtaining current time zone
                 TimeZone zone = timeZones.get(iterationTimeCal.get(Calendar.DAY_OF_WEEK) - 1);

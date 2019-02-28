@@ -32,7 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="@{size == 0 ? View.GONE : View.VISIBLE}"
-            tools:listitem="@layout/home_fragment_row">
+            tools:listitem="@layout/home_fragment_row"
+            android:paddingBottom="50dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 

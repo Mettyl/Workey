@@ -113,6 +113,7 @@ public class BlockingService extends Service {
     public void showBlockingScreen() {
         Intent intent = new Intent(this, BlockingActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getApplicationContext().startActivity(intent);
     }
 

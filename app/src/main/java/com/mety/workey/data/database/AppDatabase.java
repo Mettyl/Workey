@@ -27,7 +27,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getAppDatabase(final Context context) {
 
         if (INSTANCE == null) {
-            INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class)
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "app-database")
                     .addCallback(new RoomDatabase.Callback() {
                         public void onCreate(SupportSQLiteDatabase db) {
                             Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
