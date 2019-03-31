@@ -1,6 +1,7 @@
 package com.mety.workey.ui.base;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -64,6 +65,10 @@ public abstract class MyBaseRecyclerAdapter extends ListAdapter<ListItem, MyBase
         void bind(int br, Object obj) {
             binding.setVariable(br, obj);
             binding.executePendingBindings();
+        }
+
+        public void setOnClickListener(View.OnClickListener listener) {
+            binding.getRoot().setOnClickListener(listener);
         }
 
         public ViewDataBinding getBinding() {

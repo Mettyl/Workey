@@ -67,7 +67,9 @@ public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter {
     public void onBindViewHolder(@NonNull MyBaseRecyclerAdapter.MyViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
+        //just for items (not headers)
         if (holder.getItemViewType() == LAYOUT_ITEM) {
+
             final Task task = (Task) getItem(position);
             RadioButton radioButton = ((HomeFragmentRowBinding) holder.getBinding()).radioButton;
             radioButton.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +79,14 @@ public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter {
                     recyclerItemListener.onCheckedChanged(task);
                 }
             });
+
+            holder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recyclerItemListener.onItemClick(task);
+                }
+            });
+
         }
     }
 
@@ -117,6 +127,8 @@ public class HomeRecyclerAdapter extends MyBaseRecyclerAdapter {
         void onCheckedChanged(Task task);
 
         void onDeleteItem(Task task);
+
+        void onItemClick(Task task);
 
     }
 

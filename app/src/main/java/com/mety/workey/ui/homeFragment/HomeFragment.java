@@ -23,6 +23,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,8 +45,8 @@ public class HomeFragment extends Fragment {
 
         //Setting up data binding
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
-        dataBinding.setLifecycleOwner(getViewLifecycleOwner());
         dataBinding.setSize(viewModel.getTaskListSize());
+        dataBinding.setLifecycleOwner(getViewLifecycleOwner());
 
         //Setting up recyclerView adapter with methods to differ tasks from each other
         final HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(getContext(), new HomeRecyclerAdapter.RecyclerItemListener() {
@@ -58,6 +59,12 @@ public class HomeFragment extends Fragment {
             public void onDeleteItem(Task task) {
                 viewModel.delete(task);
                 showUndoSnackbar();
+            }
+
+            @Override
+            public void onItemClick(Task task) {
+                viewModel.setCurrentlyCreatedTask(task);
+                Navigation.findNavController(dataBinding.getRoot()).navigate(HomeFragmentDirections.actionHomeFragmentToNewTaskFragment().setEdit(true));
             }
         });
 

@@ -31,7 +31,12 @@
         android:id="@+id/nav_graph_new_task"
         android:name="com.mety.workey.ui.newTaskFragment.NewTaskFragment"
         android:label="Add new task"
-        tools:layout="@layout/new_task_fragment" />
+        tools:layout="@layout/new_task_fragment">
+        <argument
+            android:name="edit"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
     <fragment
         android:id="@+id/nav_graph_time_zone_fragment"
         android:name="com.mety.workey.ui.timeZoneFragment.TimeZoneFragment"
